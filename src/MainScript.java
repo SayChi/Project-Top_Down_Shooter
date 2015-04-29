@@ -3,7 +3,11 @@
 
 
 public class MainScript {
-	public static void main(String[] args){
+	public void run(){
 
+	}
+
+	public static void main(String[] args){
+		new MainScript().run();
 	}
 }
