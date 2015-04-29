@@ -2,6 +2,6 @@
 // Created using IntelliJ IDEA
 
 
-public class MainScript {
+public class BootScreen {
 
 }
