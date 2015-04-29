@@ -5,6 +5,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class Player {
@@ -26,11 +27,11 @@ public class Player {
 		BufferedImage imagePlayer;
 
 		try{
-			imagePlayer = ImageIO.read(getClass().getResourceAsStream("/images/square1.png"));
+			imagePlayer = ImageIO.read(new File("/images/square1.png"));
+			g.drawImage(imagePlayer, 100, 100, null);
 		} catch( IOException e ) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
-		g.drawImage(imagePlayer, 100, 100, null);
 	}
 }

@@ -10,6 +10,7 @@ public class Graphics extends JPanel {
 
 	Graphics( MainScript mainScriptSet ) {
 		mainScript = mainScriptSet;
+		setLayout(new FlowLayout());
 	}
 
 	@Override
