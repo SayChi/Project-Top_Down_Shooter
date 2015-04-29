@@ -13,6 +13,7 @@ import java.util.List;
 public class MainScript implements MouseListener, KeyListener {
 	JFrame frame = new JFrame();
 	JPanel graphicsPanel = new Graphics(this);
+	Player player = new Player();
 
 	Point mouseLoc = new Point();				//mouse location in the graphicsPanel
 	boolean clicky;								//is the left mouse button currently pressed?
@@ -40,7 +41,11 @@ public class MainScript implements MouseListener, KeyListener {
 					mouseLoc.y = MouseInfo.getPointerInfo().getLocation().y - graphicsPanel.getLocationOnScreen().y;
 
 					//region<game logic>
-
+					if( player.moveX > 0 ) player.moveX--;
+					else if( player.moveX < 0 ) player.moveX++;
+					if( player.moveY > 0 ) player.moveY--;
+					else if( player.moveY < 0 ) player.moveY++;
+					player.move();
 					//endregion
 
 					publish();
@@ -67,7 +72,23 @@ public class MainScript implements MouseListener, KeyListener {
 
 	@Override
 	public void keyPressed( KeyEvent e ) {
+		switch(e.getKeyCode()){
+			case KeyEvent.VK_W:
+				player.moveY -= 3;
+				break;
 
+			case KeyEvent.VK_S:
+				player.moveY += 3;
+				break;
+
+			case KeyEvent.VK_A:
+				player.moveX -= 3;
+				break;
+
+			case KeyEvent.VK_D:
+				player.moveX += 3;
+				break;
+		}
 	}
 
 	@Override
