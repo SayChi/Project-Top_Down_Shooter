@@ -20,5 +20,7 @@ public class Graphics extends JPanel {
 		else g.setColor(Color.BLACK);
 		g.fillRect(mainScript.player.x - 5, mainScript.player.y - 5, 10, 10);
 		g.drawLine(mainScript.player.x, mainScript.player.y, mainScript.mouseLoc.x, mainScript.mouseLoc.y);
+
+		mainScript.player.draw(g);
 	}
 }

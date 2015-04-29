@@ -14,6 +14,7 @@ public class MainScript implements MouseListener, KeyListener {
 	JFrame frame = new JFrame();
 	JPanel graphicsPanel = new Graphics(this);
 	Player player = new Player();
+	InputManager inputManager = new InputManager(this);
 
 	Point mouseLoc = new Point();				//mouse location in the graphicsPanel
 	boolean clicky;								//is the left mouse button currently pressed?
