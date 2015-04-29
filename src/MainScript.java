@@ -3,37 +3,39 @@
 
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-public class MainScript implements ActionListener {
+public class MainScript {
 	JFrame jFrame = new JFrame();
-	SwingWorker swingWorker;
-	Timer timerLogic = new Timer(1000 / 30, this);
+	int logicTimeDelayMilliSecs = 1000 / 30;	//delay between logic loops
 
 	public void run() {
-		swingWorker = new SwingWorker<Void, Void>() {
+		new SwingWorker<Void, Void>() {
 			@Override
 			protected Void doInBackground() throws Exception {
-				System.out.println("logic");
-				publish();
-				return null;
+				while( true ) {
+					long loopStartTime = System.nanoTime() / 1000000;	//saves starting time of the logic
+
+					//region<game logic>
+
+					//endregion
+
+					publish();
+
+					//stops if there is not enough time for logic (too slow PC) else sleeps
+					if( System.nanoTime() / 1000000 - loopStartTime > logicTimeDelayMilliSecs ) return null;
+					try {
+						Thread.sleep(logicTimeDelayMilliSecs - (System.nanoTime() / 1000000 - loopStartTime));
+					}catch( InterruptedException e ) {
+					}
+				}
 			}
 
 			@Override
 			protected void process( List<Void> v ) {
-				System.out.println("draw");
+
 			}
-		};
-
-		timerLogic.start();
-	}
-
-	@Override
-	public void actionPerformed( ActionEvent e ) {
-		System.out.println("action");
-		swingWorker.run();
+		}.execute();
 	}
 
 	public static void main( String[] args ) {
