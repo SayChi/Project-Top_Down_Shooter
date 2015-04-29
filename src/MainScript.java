@@ -3,35 +3,40 @@
 
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
-public class MainScript {
-	public void run(){
-		new SwingWorker<Void, Void>() {
+public class MainScript implements ActionListener {
+	JFrame jFrame = new JFrame();
+	SwingWorker swingWorker;
+	Timer timerLogic = new Timer(1000 / 30, this);
+
+	public void run() {
+		swingWorker = new SwingWorker<Void, Void>() {
 			@Override
 			protected Void doInBackground() throws Exception {
-				//logic here
-				//use publish() to draw
-				for( int i = 0; i < 1000; i++ ) {
-					System.out.println("hi");
-					try {
-						Thread.sleep(1000/60);
-					}catch( InterruptedException e ) {
-					}
-					publish();
-				}
+				System.out.println("logic");
+				publish();
 				return null;
 			}
 
 			@Override
-			protected void process(List<Void> v) {
-				//draw here
-				System.out.println("bye");
+			protected void process( List<Void> v ) {
+				System.out.println("draw");
 			}
-		}.execute();
+		};
+
+		timerLogic.start();
 	}
 
-	public static void main(String[] args){
+	@Override
+	public void actionPerformed( ActionEvent e ) {
+		System.out.println("action");
+		swingWorker.run();
+	}
+
+	public static void main( String[] args ) {
 		new MainScript().run();
 	}
 }
