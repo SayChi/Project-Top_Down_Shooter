@@ -2,7 +2,10 @@
 // Created using IntelliJ IDEA
 
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Player {
 	int x,y;
@@ -20,6 +23,14 @@ public class Player {
 	}
 
 	void draw( java.awt.Graphics g ) {
+		BufferedImage imagePlayer;
 
+		try{
+			imagePlayer = ImageIO.read(getClass().getResourceAsStream("/images/square1.png"));
+		} catch( IOException e ) {
+			e.printStackTrace();
+		}
+
+		g.drawImage(imagePlayer, 100, 100, null);
 	}
 }
