@@ -19,7 +19,7 @@ public class MainScript implements MouseListener, KeyListener {
 	Point mouseLoc = new Point();				//mouse location in the graphicsPanel
 	boolean clicky;								//is the left mouse button currently pressed?
 
-	int logicTimeDelayMilliSecs = 1000 / 30;	//delay between logic loops
+	int logicTimeDelayMilliSecs = 1000 / 25;	//delay between logic loops
 
 	long lastDrawTime;
 
@@ -54,7 +54,7 @@ public class MainScript implements MouseListener, KeyListener {
 					publish();
 
 					//stops if there is not enough time for logic (too slow PC) else sleeps
-					if( System.nanoTime() / 1000000 - loopStartTime > logicTimeDelayMilliSecs ) return null;
+					//if( System.nanoTime() / 1000000 - loopStartTime > logicTimeDelayMilliSecs ) return null;
 					try {
 						Thread.sleep(logicTimeDelayMilliSecs - (System.nanoTime() / 1000000 - loopStartTime));
 					}catch( InterruptedException e ) {

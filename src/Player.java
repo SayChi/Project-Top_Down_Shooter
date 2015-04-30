@@ -20,6 +20,7 @@ public class Player {
 	double rotation;
 
 	Player( MainScript mainScriptSet ) {
+		x = y = 100;
 		mainScript = mainScriptSet;
 	}
 
