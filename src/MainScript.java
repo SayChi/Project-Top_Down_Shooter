@@ -21,6 +21,8 @@ public class MainScript implements MouseListener, KeyListener {
 
 	int logicTimeDelayMilliSecs = 1000 / 30;	//delay between logic loops
 
+	long lastDrawTime;
+
 	public void run() {
 		//region<frame stuffs>
 		frame.setSize(1080, 720);
@@ -63,6 +65,8 @@ public class MainScript implements MouseListener, KeyListener {
 			@Override
 			protected void process( List<Void> v ) {
 				graphicsPanel.repaint();
+				frame.setTitle("FPS: " + 1000/(System.nanoTime()/1000000 - lastDrawTime));
+				lastDrawTime = System.nanoTime()/1000000;
 			}
 		}.execute();
 	}
