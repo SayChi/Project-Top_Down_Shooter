@@ -59,50 +59,36 @@ public class Player {
 		deltaX = mainScript.mouseLoc.x - x;
 		deltaY = mainScript.mouseLoc.y - y;
 
-		//System.out.println(deltaX);
-		//System.out.println(deltaY);
-
-		if (deltaX <= 0 && deltaY <= 0 ){
-			System.out.println("1");
+		if (deltaX <= 0 && deltaY < 0 ){
 			try{
 				tempAngle = Math.atan(deltaX / deltaY);
-				System.out.println(tempAngle);
 				return (tempAngle * -1);
 			}catch(Exception e){
-				System.out.println("exception");
 				return (Math.PI * 0.5);
 			}
 		}
 
-		else if (deltaX >= 0 && deltaY <= 0 ){
-			System.out.println("2");
+		else if (deltaX >= 0 && deltaY < 0 ){
 			try{
 				tempAngle = Math.atan(deltaX / deltaY);
 				return (tempAngle * -1);
 			}catch(Exception e){
-				System.out.println("exception");
 				return (Math.PI * -0.5);
 			}
 		}
 
 		else if (deltaX <= 0 && deltaY >= 0 ){
-			System.out.println("3");
 			try{
 				tempAngle = Math.atan(deltaX / deltaY);
-				return (Math.PI - tempAngle);
 			}catch(Exception e){
-				System.out.println("exception");
 				return (Math.PI * 0.5);
 			}
 		}
 
 		else if (deltaX >= 0 && deltaY >= 0 ){
-			System.out.println("4");
 			try{
 				tempAngle = Math.atan(deltaX / deltaY);
-				return (Math.PI - tempAngle);
 			}catch(Exception e){
-				System.out.println("exception");
 				return (Math.PI * -0.5);
 			}
 		}
