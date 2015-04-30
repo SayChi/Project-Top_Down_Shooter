@@ -16,7 +16,7 @@ public class Player {
 
 	int x, y;
 	int moveX, moveY;
-	int health;
+	int health = 50;
 	int speedLimit = 5;
 	double rotation;
 
@@ -39,7 +39,8 @@ public class Player {
 		g.setColor(Color.BLACK);
 		g.fillRect(x - 25, y - 40, 50, 10);
 		g.setColor(Color.RED);
-		g.fillRect(x - 25, y - 40, health/2, 10);
+		g.fillRect(x - 25, y - 40, health / 2, 10);
+		g.drawString(String.valueOf(health), x - 8, y - 43);
 
 		try {
 			imagePlayer = ImageIO.read(new File("images//player1.png"));
