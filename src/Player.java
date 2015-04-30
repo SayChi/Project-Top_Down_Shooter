@@ -12,16 +12,18 @@ import java.io.File;
 import java.io.IOException;
 
 public class Player {
-	Player(MainScript mainScriptSet){
-		mainScript = mainScriptSet;
-	}
-
 	MainScript mainScript;
+
 	int x,y;
 	int moveX, moveY;
 	int health;
-
 	int speedLimit = 5;
+
+	double temp;
+
+	Player(MainScript mainScriptSet){
+		mainScript = mainScriptSet;
+	}
 
 	void move() {
 		if( Math.abs(moveX) > speedLimit ) moveX = (int) Math.signum(moveX) * speedLimit;
@@ -34,11 +36,13 @@ public class Player {
 	void draw( Graphics g ) {
 		BufferedImage imagePlayer;
 
+		temp += 0.05;
+
 		try{
 			imagePlayer = ImageIO.read(new File("images//square1.png"));
 			//g.translate(-20, -20);
 			AffineTransform tx = new AffineTransform();
-			tx.rotate(0.5, imagePlayer.getWidth() / 2, imagePlayer.getHeight() / 2);
+			tx.rotate(temp, imagePlayer.getWidth() / 2, imagePlayer.getHeight() / 2);
 			AffineTransformOp op = new AffineTransformOp(tx,AffineTransformOp.TYPE_BILINEAR);
 			imagePlayer = op.filter(imagePlayer, null);
 			g.drawImage(imagePlayer, x, y, null);

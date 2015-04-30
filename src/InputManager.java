@@ -14,8 +14,6 @@ public class InputManager extends JPanel {
 		mainScript = mainScriptSet;
 
 		aW = new actionW("W", null);
-		getInputMap().put(KeyStroke.getKeyStroke("w"), "forward");
-		getActionMap().put("forward", aW);
 	}
 }
 
