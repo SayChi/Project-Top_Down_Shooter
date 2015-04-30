@@ -42,7 +42,7 @@ public class Player {
 		g.fillRect(x - 25, y - 40, health/2, 10);
 
 		try {
-			imagePlayer = ImageIO.read(new File("images//square1.png"));
+			imagePlayer = ImageIO.read(new File("images//player1.png"));
 			g.translate(-20, -20);
 			AffineTransform tx = new AffineTransform();
 			tx.rotate(rotation, imagePlayer.getWidth() / 2, imagePlayer.getHeight() / 2);
