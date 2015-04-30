@@ -80,6 +80,7 @@ public class Player {
 		else if (deltaX <= 0 && deltaY >= 0 ){
 			try{
 				tempAngle = Math.atan(deltaX / deltaY);
+				return (Math.PI - tempAngle);
 			}catch(Exception e){
 				return (Math.PI * 0.5);
 			}
@@ -88,6 +89,7 @@ public class Player {
 		else if (deltaX >= 0 && deltaY >= 0 ){
 			try{
 				tempAngle = Math.atan(deltaX / deltaY);
+				return (Math.PI - tempAngle);
 			}catch(Exception e){
 				return (Math.PI * -0.5);
 			}
