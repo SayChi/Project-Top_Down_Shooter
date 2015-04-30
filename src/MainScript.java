@@ -24,7 +24,7 @@ public class MainScript implements MouseListener, KeyListener {
 	public void run() {
 		//region<frame stuffs>
 		frame.setSize(1080, 720);
-		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+		//frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.add(graphicsPanel);
