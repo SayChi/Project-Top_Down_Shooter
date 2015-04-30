@@ -3,6 +3,7 @@
 
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -35,6 +36,10 @@ public class Player {
 	void draw( Graphics g ) {
 		BufferedImage imagePlayer;
 		rotation = calcRotation();
+		g.setColor(Color.BLACK);
+		g.fillRect(x - 25, y - 40, 50, 10);
+		g.setColor(Color.RED);
+		g.fillRect(x - 25, y - 40, health/2, 10);
 
 		try {
 			imagePlayer = ImageIO.read(new File("images//square1.png"));
