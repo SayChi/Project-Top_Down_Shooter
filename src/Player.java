@@ -27,7 +27,7 @@ public class Player {
 		BufferedImage imagePlayer;
 
 		try{
-			imagePlayer = ImageIO.read(new File("/images/square1.png"));
+			imagePlayer = ImageIO.read(new File("images//square1.png"));
 			g.drawImage(imagePlayer, 100, 100, null);
 		} catch( IOException e ) {
 			//e.printStackTrace();
