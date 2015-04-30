@@ -13,14 +13,16 @@ public class InputManager extends JPanel {
 	InputManager(MainScript mainScriptSet) {
 		mainScript = mainScriptSet;
 
-		aW = new actionW("W", null);
+		aW = new actionW("W", null, "forward", KeyEvent.VK_W);
 	}
 }
 
 class actionW extends AbstractAction {
 
-	actionW(String text, ImageIcon icon) {
+	actionW(String text, ImageIcon icon, String desc, Integer mnemonic) {
 		super(text, icon);
+		putValue(SHORT_DESCRIPTION, desc);
+		putValue(MNEMONIC_KEY, mnemonic);
 	}
 
 	@Override

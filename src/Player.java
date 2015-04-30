@@ -3,7 +3,6 @@
 
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -14,15 +13,13 @@ import java.io.IOException;
 public class Player {
 	MainScript mainScript;
 
-	int x,y;
+	int x, y;
 	int moveX, moveY;
 	int health;
 	int speedLimit = 5;
 	double rotation;
 
-	double temp;
-
-	Player(MainScript mainScriptSet){
+	Player( MainScript mainScriptSet ) {
 		mainScript = mainScriptSet;
 	}
 
@@ -36,65 +33,44 @@ public class Player {
 
 	void draw( Graphics g ) {
 		BufferedImage imagePlayer;
-
-		temp += 0.05;
 		rotation = calcRotation();
 
-		try{
+		try {
 			imagePlayer = ImageIO.read(new File("images//square1.png"));
 			g.translate(-20, -20);
 			AffineTransform tx = new AffineTransform();
 			tx.rotate(rotation, imagePlayer.getWidth() / 2, imagePlayer.getHeight() / 2);
-			AffineTransformOp op = new AffineTransformOp(tx,AffineTransformOp.TYPE_BILINEAR);
+			AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 			imagePlayer = op.filter(imagePlayer, null);
 			g.drawImage(imagePlayer, x, y, null);
-		} catch( IOException e ) {
-			//e.printStackTrace();
+		}catch( IOException e ) {
 		}
 	}
 
-	double calcRotation(){
-		double deltaX, deltaY;
+	double calcRotation() {
+		double deltaX = mainScript.mouseLoc.x - x;
+		double deltaY = mainScript.mouseLoc.y - y;
 		double tempAngle;
-		deltaX = mainScript.mouseLoc.x - x;
-		deltaY = mainScript.mouseLoc.y - y;
 
-		if (deltaX <= 0 && deltaY < 0 ){
-			try{
-				tempAngle = Math.atan(deltaX / deltaY);
-				return (tempAngle * -1);
-			}catch(Exception e){
+		if( deltaY == 0 ) {
+			if( deltaX > 0 ) {
 				return (Math.PI * 0.5);
-			}
-		}
-
-		else if (deltaX >= 0 && deltaY < 0 ){
-			try{
-				tempAngle = Math.atan(deltaX / deltaY);
-				return (tempAngle * -1);
-			}catch(Exception e){
+			}else {
 				return (Math.PI * -0.5);
 			}
+		}else {
+			tempAngle = Math.atan(deltaX / deltaY);
 		}
 
-		else if (deltaX <= 0 && deltaY >= 0 ){
-			try{
-				tempAngle = Math.atan(deltaX / deltaY);
-				return (Math.PI - tempAngle);
-			}catch(Exception e){
-				return (Math.PI * 0.5);
-			}
-		}
-
-		else if (deltaX >= 0 && deltaY >= 0 ){
-			try{
-				tempAngle = Math.atan(deltaX / deltaY);
-				return (Math.PI - tempAngle);
-			}catch(Exception e){
-				return (Math.PI * -0.5);
-			}
-		}
-		else {
+		if( deltaX <= 0 && deltaY < 0 ) {
+			return (tempAngle * -1);
+		}else if( deltaX >= 0 && deltaY < 0 ) {
+			return (tempAngle * -1);
+		}else if( deltaX <= 0 && deltaY >= 0 ) {
+			return (Math.PI - tempAngle);
+		}else if( deltaX >= 0 && deltaY >= 0 ) {
+			return (Math.PI - tempAngle);
+		}else {
 			return 0;
 		}
 	}
