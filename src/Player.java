@@ -4,11 +4,19 @@
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class Player {
+	Player(MainScript mainScriptSet){
+		mainScript = mainScriptSet;
+	}
+
+	MainScript mainScript;
 	int x,y;
 	int moveX, moveY;
 	int health;
@@ -23,15 +31,19 @@ public class Player {
 		y += moveY;
 	}
 
-	void draw( java.awt.Graphics g ) {
+	void draw( Graphics g ) {
 		BufferedImage imagePlayer;
 
 		try{
 			imagePlayer = ImageIO.read(new File("images//square1.png"));
-			g.drawImage(imagePlayer, 100, 100, null);
+			//g.translate(-20, -20);
+			AffineTransform tx = new AffineTransform();
+			tx.rotate(0.5, imagePlayer.getWidth() / 2, imagePlayer.getHeight() / 2);
+			AffineTransformOp op = new AffineTransformOp(tx,AffineTransformOp.TYPE_BILINEAR);
+			imagePlayer = op.filter(imagePlayer, null);
+			g.drawImage(imagePlayer, x, y, null);
 		} catch( IOException e ) {
 			//e.printStackTrace();
 		}
-
 	}
 }
