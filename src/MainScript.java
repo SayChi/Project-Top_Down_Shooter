@@ -4,13 +4,15 @@
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainScript {
 	JFrame frame = new JFrame();
-	JPanel graphicsPanel = new Graphics(this);
+	JPanel graphicsPanel = new GraphicsPanel(this);
 	Player player = new Player(this);
 	InputManager inputManager = new InputManager(this);
+	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 	int logicTimeDelayMilliSecs = 1000 / 25;	//delay between logic loops
 
@@ -48,6 +50,7 @@ public class MainScript {
 					if( player.moveY > 0 ) player.moveY--;
 					else if( player.moveY < 0 ) player.moveY++;
 
+					for( Bullet bullet : bullets ) bullet.move();
 					player.move();			//move player
 					//endregion
 

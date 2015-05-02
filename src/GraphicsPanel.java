@@ -6,16 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class Graphics extends JPanel {
+public class GraphicsPanel extends JPanel {
 	MainScript mainScript;
 
-	Graphics( MainScript mainScriptSet ) {
+	GraphicsPanel( MainScript mainScriptSet ) {
 		mainScript = mainScriptSet;
 		setLayout(new FlowLayout());
 	}
 
 	@Override
-	protected void paintComponent( java.awt.Graphics g ) {
+	protected void paintComponent( Graphics g ) {
 		super.paintComponent(g);
 		//temp
 		if( mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) g.setColor(Color.RED);
@@ -24,5 +24,6 @@ public class Graphics extends JPanel {
 				.inputManager.mouseLoc.y);
 
 		mainScript.player.draw(g);
+		for( Bullet bullet : mainScript.bullets ) bullet.draw(g);
 	}
 }

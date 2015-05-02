@@ -44,11 +44,17 @@ public class Player {
 
 		x += moveX;
 		y += moveY;
+
+		rotation = calcRotation();
+
+		if( mainScript.inputManager.mouseButtonDownOnce(MouseEvent.BUTTON1) ) {
+			mainScript.bullets.add(new Bullet(x, y, Math.cos(rotation - Math.PI / 2) * 10, Math.sin(rotation - Math.PI
+					/ 2) * 10, 10));
+		}
 	}
 
 	void draw( Graphics g ) {
 		BufferedImage imagePlayer;
-		rotation = calcRotation();
 		g.setColor(Color.BLACK);
 		g.fillRect(x - 25, y - 40, 50, 10);
 		g.setColor(Color.RED);
@@ -150,7 +156,7 @@ class Gun implements ActionListener {
 		}
 	}
 
-	void reload(){
+	void reload() {
 		reloadTimer.start();
 	}
 
