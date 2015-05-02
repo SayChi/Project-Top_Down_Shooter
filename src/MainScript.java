@@ -13,6 +13,7 @@ public class MainScript {
 	Player player = new Player(this);
 	InputManager inputManager = new InputManager(this);
 	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
 	int logicTimeDelayMilliSecs = 1000 / 25;	//delay between logic loops
 
@@ -33,6 +34,8 @@ public class MainScript {
 		frame.addMouseListener(inputManager);
 		//endregion
 
+		enemies.add(new BasicEnemy(this, 50, 50));
+
 		new SwingWorker<Void, Void>() {
 			@Override
 			protected Void doInBackground() throws Exception {
@@ -40,7 +43,6 @@ public class MainScript {
 					long loopStartTime = System.nanoTime() / 1000000;	//saves starting time of the logic
 
 					//region<game logic>
-					System.out.println(bullets.size());
 					inputManager.poll();	//get input
 
 					if( inputManager.keyDown(KeyEvent.VK_W) ) player.moveY -= 3;
@@ -56,6 +58,8 @@ public class MainScript {
 
 					for( Bullet bullet : bullets ) bullet.move();
 					player.move();			//move player
+
+					for( Enemy enemy : enemies ) enemy.move();
 					//endregion
 
 					publish();

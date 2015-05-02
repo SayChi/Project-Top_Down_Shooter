@@ -19,6 +19,9 @@ public class GraphicsPanel extends JPanel {
 		super.paintComponent(g);
 
 		mainScript.player.draw(g);
+		for( Enemy enemy : mainScript.enemies ) {
+			enemy.draw(g);
+		}
 
 		ArrayList<Bullet> removeBullets = new ArrayList<Bullet>();
 

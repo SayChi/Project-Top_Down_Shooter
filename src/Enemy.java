@@ -11,10 +11,20 @@ import java.io.File;
 import java.io.IOException;
 
 public class Enemy {
+	MainScript mainScript;
+
 	int x, y;
 	int health;
 	double rotation;
 
+	Enemy(MainScript mainScriptSet, int xSet, int ySet) {
+		mainScript = mainScriptSet;
+
+		x = xSet;
+		y = ySet;
+	}
+
+	void move(){}
 
 	void draw( java.awt.Graphics g ) {
 		BufferedImage imagePlayer;
