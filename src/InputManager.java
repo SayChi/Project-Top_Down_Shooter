@@ -2,31 +2,124 @@
 // Created using IntelliJ IDEA
 
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Arrays;
 
-public class InputManager extends JPanel {
+public class InputManager implements KeyListener, MouseListener {
 	MainScript mainScript;
-	Action aW, aA, aS, aD;
 
-	InputManager(MainScript mainScriptSet) {
+	final int KEY_COUNT = 256;
+	final int BUTTON_COUNT = 3;
+
+	Point mouseLoc = new Point();
+
+	boolean[] currentMouseButtons = new boolean[BUTTON_COUNT];
+	KeyState[] mouseButtons = new KeyState[BUTTON_COUNT];
+
+	boolean[] currentKeys = new boolean[KEY_COUNT];
+	KeyState[] keys = new KeyState[KEY_COUNT];
+
+	InputManager( MainScript mainScriptSet ) {
 		mainScript = mainScriptSet;
 
-		aW = new actionW("W", null, "forward", KeyEvent.VK_W);
+		Arrays.fill(mouseButtons, KeyState.RELEASED);
+		Arrays.fill(keys, KeyState.RELEASED);
 	}
-}
 
-class actionW extends AbstractAction {
+	void poll() {
+		mouseLoc.x = MouseInfo.getPointerInfo().getLocation().x - mainScript.graphicsPanel.getLocationOnScreen().x;
+		mouseLoc.y = MouseInfo.getPointerInfo().getLocation().y - mainScript.graphicsPanel.getLocationOnScreen().y;
 
-	actionW(String text, ImageIcon icon, String desc, Integer mnemonic) {
-		super(text, icon);
-		putValue(SHORT_DESCRIPTION, desc);
-		putValue(MNEMONIC_KEY, mnemonic);
+		for( int i = 0; i < KEY_COUNT; ++i ) {
+			if( currentKeys[i] ) {
+				if( keys[i] == KeyState.RELEASED ) {
+					keys[i] = KeyState.ONCE;
+				}else {
+					keys[i] = KeyState.PRESSED;
+				}
+			}else {
+				keys[i] = KeyState.RELEASED;
+			}
+		}
+
+		for( int i = 0; i < BUTTON_COUNT; ++i ) {
+			if( currentMouseButtons[i] ) {
+				if( mouseButtons[i] == KeyState.RELEASED ) {
+					mouseButtons[i] = KeyState.ONCE;
+				}else {
+					mouseButtons[i] = KeyState.PRESSED;
+				}
+			}else {
+				mouseButtons[i] = KeyState.RELEASED;
+			}
+		}
+	}
+
+	enum KeyState {
+		RELEASED, // Button is not pressed
+		PRESSED,  // Button is pressed
+		ONCE      // Rising edge
+	}
+
+	public boolean keyDown( int keyCode ) {
+		return keys[ keyCode ] == KeyState.ONCE || keys[ keyCode ] == KeyState.PRESSED;
+	}
+
+	public boolean keyDownOnce( int keyCode ) {
+		return keys[ keyCode ] == KeyState.ONCE;
+	}
+
+	public boolean mouseButtonDown( int keyCode ) {
+		return mouseButtons[ keyCode - 1 ] == KeyState.ONCE || mouseButtons[ keyCode - 1 ] == KeyState.PRESSED;
+	}
+
+	public boolean mouseButtonDownOnce( int keyCode ) {
+		return mouseButtons[ keyCode - 1 ] == KeyState.ONCE;
 	}
 
 	@Override
-	public void actionPerformed( ActionEvent e ) {
-		System.out.println("forward!");
+	public void keyPressed( KeyEvent e ) {
+		if( e.getKeyCode() >= 0 && e.getKeyCode() < KEY_COUNT ) currentKeys[ e.getKeyCode() ] = true;
 	}
+
+	@Override
+	public void keyReleased( KeyEvent e ) {
+		if( e.getKeyCode() >= 0 && e.getKeyCode() < KEY_COUNT ) currentKeys[ e.getKeyCode() ] = false;
+	}
+
+	@Override
+	public void mousePressed( MouseEvent e ) {
+		currentMouseButtons[ e.getButton()-1 ] = true;
+	}
+
+	@Override
+	public void mouseReleased( MouseEvent e ) {
+		currentMouseButtons[ e.getButton()-1 ] = false;
+	}
+
+	//region<junk>
+	@Override
+	public void mouseClicked( MouseEvent e ) {
+
+	}
+
+	@Override
+	public void mouseEntered( MouseEvent e ) {
+
+	}
+
+	@Override
+	public void mouseExited( MouseEvent e ) {
+
+	}
+
+	@Override
+	public void keyTyped( KeyEvent e ) {
+
+	}
+	//endregion
 }

@@ -4,6 +4,7 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class Graphics extends JPanel {
 	MainScript mainScript;
@@ -17,9 +18,10 @@ public class Graphics extends JPanel {
 	protected void paintComponent( java.awt.Graphics g ) {
 		super.paintComponent(g);
 		//temp
-		if( mainScript.clicky ) g.setColor(Color.RED);
+		if( mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) g.setColor(Color.RED);
 		else g.setColor(Color.BLACK);
-		g.drawLine(mainScript.player.x, mainScript.player.y, mainScript.mouseLoc.x, mainScript.mouseLoc.y);
+		g.drawLine(mainScript.player.x, mainScript.player.y, mainScript.inputManager.mouseLoc.x, mainScript
+				.inputManager.mouseLoc.y);
 
 		mainScript.player.draw(g);
 	}

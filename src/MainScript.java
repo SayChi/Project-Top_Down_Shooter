@@ -3,21 +3,14 @@
 
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 
-public class MainScript implements MouseListener, KeyListener {
+public class MainScript {
 	JFrame frame = new JFrame();
 	JPanel graphicsPanel = new Graphics(this);
 	Player player = new Player(this);
 	InputManager inputManager = new InputManager(this);
-
-	Point mouseLoc = new Point();				//mouse location in the graphicsPanel
-	boolean clicky;								//is the left mouse button currently pressed?
 
 	int logicTimeDelayMilliSecs = 1000 / 25;	//delay between logic loops
 
@@ -31,8 +24,8 @@ public class MainScript implements MouseListener, KeyListener {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.add(graphicsPanel);
 
-		frame.addKeyListener(this);
-		frame.addMouseListener(this);
+		frame.addKeyListener(inputManager);
+		frame.addMouseListener(inputManager);
 		//endregion
 
 		new SwingWorker<Void, Void>() {
@@ -40,15 +33,22 @@ public class MainScript implements MouseListener, KeyListener {
 			protected Void doInBackground() throws Exception {
 				while( true ) {
 					long loopStartTime = System.nanoTime() / 1000000;	//saves starting time of the logic
-					mouseLoc.x = MouseInfo.getPointerInfo().getLocation().x - graphicsPanel.getLocationOnScreen().x;
-					mouseLoc.y = MouseInfo.getPointerInfo().getLocation().y - graphicsPanel.getLocationOnScreen().y;
 
 					//region<game logic>
+					inputManager.poll();	//get input
+
+					if( inputManager.keyDown(KeyEvent.VK_W) ) player.moveY -= 3;
+					if( inputManager.keyDown(KeyEvent.VK_S) ) player.moveY += 3;
+					if( inputManager.keyDown(KeyEvent.VK_A) ) player.moveX -= 3;
+					if( inputManager.keyDown(KeyEvent.VK_D) ) player.moveX += 3;
+
+					//slow player down
 					if( player.moveX > 0 ) player.moveX--;
 					else if( player.moveX < 0 ) player.moveX++;
 					if( player.moveY > 0 ) player.moveY--;
 					else if( player.moveY < 0 ) player.moveY++;
-					player.move();
+
+					player.move();			//move player
 					//endregion
 
 					publish();
@@ -74,62 +74,4 @@ public class MainScript implements MouseListener, KeyListener {
 	public static void main( String[] args ) {
 		new MainScript().run();
 	}
-
-	@Override
-	public void keyPressed( KeyEvent e ) {
-		switch(e.getKeyCode()){
-			case KeyEvent.VK_W:
-				player.moveY -= 3;
-				break;
-
-			case KeyEvent.VK_S:
-				player.moveY += 3;
-				break;
-
-			case KeyEvent.VK_A:
-				player.moveX -= 3;
-				break;
-
-			case KeyEvent.VK_D:
-				player.moveX += 3;
-				break;
-		}
-	}
-
-	@Override
-	public void mousePressed( MouseEvent e ) {
-		clicky = true;
-	}
-
-	@Override
-	public void mouseReleased( MouseEvent e ) {
-		clicky = false;
-	}
-
-	//region<trash>
-	@Override
-	public void mouseClicked( MouseEvent e ) {
-
-	}
-
-	@Override
-	public void mouseEntered( MouseEvent e ) {
-
-	}
-
-	@Override
-	public void mouseExited( MouseEvent e ) {
-
-	}
-
-	@Override
-	public void keyTyped( KeyEvent e ) {
-
-	}
-
-	@Override
-	public void keyReleased( KeyEvent e ) {
-
-	}
-	//endregion
 }

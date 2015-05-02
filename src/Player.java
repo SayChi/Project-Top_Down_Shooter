@@ -13,11 +13,11 @@ import java.io.IOException;
 
 public class Player {
 	MainScript mainScript;
-3
+
 	int x, y;
 	int moveX, moveY;
 	int health = 50;
-	int speedLimit = 5;
+	int speedLimit = 15;
 	double rotation;
 	Gun[]guns = new Gun[10];
 
@@ -60,8 +60,8 @@ public class Player {
 	}
 
 	double calcRotation() {
-		double deltaX = mainScript.mouseLoc.x - x;
-		double deltaY = mainScript.mouseLoc.y - y;
+		double deltaX = mainScript.inputManager.mouseLoc.x - x;
+		double deltaY = mainScript.inputManager.mouseLoc.y - y;
 		double tempAngle;
 
 		if( deltaY == 0 ) {
