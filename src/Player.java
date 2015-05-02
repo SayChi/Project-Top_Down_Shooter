@@ -17,7 +17,7 @@ import java.io.IOException;
 public class Player {
 	MainScript mainScript;
 
-	int currentWeapon = 0;
+	int currentWeapon = 3;
 	int x, y;
 	int moveX, moveY;
 	int health = 50;
@@ -28,9 +28,10 @@ public class Player {
 	Player( MainScript mainScriptSet ) {
 		x = y = 100;
 		mainScript = mainScriptSet;
-		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0, false, this);    //pistol
-		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 5, true, this);    //micro smg
-		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0, false, this);    //rpg
+		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0, false, this);    		//pistol
+		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 5, true, this);    		//micro smg
+		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0, false, this);    		//rpg
+		guns[3] = new Gun(3000, 1000, 2000, 3, 6, 3, 30, 20, true, this);	//mini gun
 
 	}
 
