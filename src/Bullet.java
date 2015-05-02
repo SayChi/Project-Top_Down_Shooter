@@ -9,7 +9,7 @@ public class Bullet {
 	double xSpeed, ySpeed;
 	int damage;
 
-	Bullet(int xSet, int ySet, double xSpeedSet, double ySpeedSet, int damageSet) {
+	Bullet( int xSet, int ySet, double xSpeedSet, double ySpeedSet, int damageSet ) {
 		x = xSet;
 		y = ySet;
 		xSpeed = xSpeedSet;
@@ -22,7 +22,7 @@ public class Bullet {
 		y += ySpeed;
 	}
 
-	void draw( Graphics g) {
+	void draw( Graphics g ) {
 		g.setColor(Color.BLACK);
 		g.fillRect((int) x, (int) y, 2, 2);
 	}

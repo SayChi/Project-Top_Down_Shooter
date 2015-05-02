@@ -4,7 +4,6 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class GraphicsPanel extends JPanel {
 	MainScript mainScript;

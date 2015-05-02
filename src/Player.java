@@ -13,11 +13,12 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class Player {
 	MainScript mainScript;
 
-	int currentWeapon = 0;
+	int currentWeapon = 1;
 	int x, y;
 	int moveX, moveY;
 	int health = 50;
@@ -28,9 +29,9 @@ public class Player {
 	Player( MainScript mainScriptSet ) {
 		x = y = 100;
 		mainScript = mainScriptSet;
-		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0, false, this);    //pistol
-		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 5, true, this);    //micro smg
-		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0, false, this);    //rpg
+		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0.01, 0, false, this);    //pistol
+		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 0.02, 5, true, this);    //micro smg
+		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0.03, 0, false, this);    //rpg
 
 	}
 
@@ -100,6 +101,7 @@ public class Player {
 
 class Gun implements ActionListener {
 	Player player;
+	Random r = new Random();
 
 	Timer reloadTimer;
 	Timer shootDelay;
@@ -113,13 +115,14 @@ class Gun implements ActionListener {
 	int reloadTime;
 	int currentAmmo;
 	int overheatTime;
+	double deviation;        // 1 = complete random, 0 = perfect shot
 	boolean overheatable;
 	boolean isOverheated;
 
 	boolean canFire = true;
 
 	Gun( int totAmmoSet, int magSizeSet, int firerateSet, int firemodeSet, int damageSet, int weaponTypeSet, int
-			reloadTimeSet, int overheatTimeSet, boolean overheatableSet, Player playerSet ) {
+			reloadTimeSet, double deviationSet, int overheatTimeSet, boolean overheatableSet, Player playerSet ) {
 		player = playerSet;
 
 		damage = damageSet;
@@ -129,6 +132,7 @@ class Gun implements ActionListener {
 		firemode = firemodeSet;
 		weaponType = weaponTypeSet;
 		reloadTime = reloadTimeSet;
+		deviation = deviationSet;
 		overheatTime = overheatTimeSet;
 		overheatable = overheatableSet;
 
@@ -160,8 +164,9 @@ class Gun implements ActionListener {
 
 	void fire() {
 		if( canFire ) {
-			player.mainScript.bullets.add(new Bullet(player.x + 20, player.y + 20, Math.cos(player.rotation - Math.PI
-					/ 2) * 25, Math.sin(player.rotation - Math.PI / 2) * 25, damage));
+			double angleDeviated = player.rotation + ((r.nextDouble() - 0.5) * 2 * Math.PI * deviation) - Math.PI / 2;
+			player.mainScript.bullets.add(new Bullet(player.x + 20, player.y + 20, Math.cos(angleDeviated) * 25, Math
+					.sin(angleDeviated) * 25, damage));
 			canFire = false;
 			shootDelay.start();
 		}
