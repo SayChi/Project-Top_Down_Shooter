@@ -18,7 +18,7 @@ import java.util.Random;
 public class Player {
 	MainScript mainScript;
 
-	int currentWeapon = 1;
+	int currentWeapon = 3;
 	int x, y;
 	int moveX, moveY;
 	int health = 50;
@@ -30,7 +30,7 @@ public class Player {
 		x = y = 100;
 		mainScript = mainScriptSet;
 		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0.01, 0, false, this);    //pistol
-		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 0.02, 5, true, this);    //micro smg
+		guns[1] = new Gun(300, 25, 300, 3, 3, 1, 3, 0.02, 5, true, this);    //micro smg
 		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0.03, 0, false, this);    //rpg
 		guns[3] = new Gun(3000, 1000, 2000, 3, 6, 3, 30, 0.06, 20, true, this);	//mini gun
 	}
@@ -136,7 +136,7 @@ class Gun implements ActionListener {
 		overheatTime = overheatTimeSet;
 		overheatable = overheatableSet;
 
-		shootDelay = new Timer((60 / firerate) * 1000, this);
+		shootDelay = new Timer((int)((60.0 / firerate) * 1000), this);
 		reloadTimer = new Timer(reloadTime, this);
 		reloadTimer.setRepeats(false);
 	}
@@ -155,6 +155,9 @@ class Gun implements ActionListener {
 			}
 		}else if( e.getSource() == shootDelay ) {
 			canFire = true;
+			if( player.mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) {
+				fire();
+			}
 		}
 	}
 

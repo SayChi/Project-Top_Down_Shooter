@@ -17,6 +17,9 @@ public class MainScript {
 	int logicTimeDelayMilliSecs = 1000 / 25;	//delay between logic loops
 
 	long lastDrawTime;
+	int fps;
+	long lastCalcTime;
+	int cps;
 
 	public void run() {
 		//region<frame stuffs>
@@ -58,6 +61,9 @@ public class MainScript {
 
 					//stops if there is not enough time for logic (too slow PC) else sleeps
 					//if( System.nanoTime() / 1000000 - loopStartTime > logicTimeDelayMilliSecs ) return null;
+					cps = (int) (1000/(System.nanoTime()/1000000 - lastCalcTime));
+					lastCalcTime = System.nanoTime()/1000000;
+					frame.setTitle("FPS: " + fps + "   CPS: " + cps);
 					try {
 						Thread.sleep(logicTimeDelayMilliSecs - (System.nanoTime() / 1000000 - loopStartTime));
 					}catch( InterruptedException e ) {
@@ -68,7 +74,7 @@ public class MainScript {
 			@Override
 			protected void process( List<Void> v ) {
 				graphicsPanel.repaint();
-				frame.setTitle("FPS: " + 1000/(System.nanoTime()/1000000 - lastDrawTime));
+				fps = (int) (1000/(System.nanoTime()/1000000 - lastDrawTime));
 				lastDrawTime = System.nanoTime()/1000000;
 			}
 		}.execute();
