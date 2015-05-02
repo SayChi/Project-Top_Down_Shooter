@@ -121,15 +121,15 @@ class Gun implements ActionListener {
 
 	boolean canFire = true;
 
-	Gun( int totAmmoSet, int magSizeSet, int firerateSet, int firemodeSet, int damageSet, int weaponTypeSet, int
+	Gun( int totAmmoSet, int magSizeSet, int fireRateSet, int fireModeSet, int damageSet, int weaponTypeSet, int
 			reloadTimeSet, double deviationSet, int overheatTimeSet, boolean overheatableSet, Player playerSet ) {
 		player = playerSet;
 
 		damage = damageSet;
 		totAmmo = totAmmoSet;
 		magSize = magSizeSet;
-		firerate = firerateSet;
-		firemode = firemodeSet;
+		firerate = fireRateSet;
+		firemode = fireModeSet;
 		weaponType = weaponTypeSet;
 		reloadTime = reloadTimeSet;
 		deviation = deviationSet;
@@ -169,7 +169,7 @@ class Gun implements ActionListener {
 		if( canFire ) {
 			double angleDeviated = player.rotation + ((r.nextDouble() - 0.5) * 2 * Math.PI * deviation) - Math.PI / 2;
 			player.mainScript.bullets.add(new Bullet(player.x + 20, player.y + 20, Math.cos(angleDeviated) * 25, Math
-					.sin(angleDeviated) * 25, damage));
+					.sin(angleDeviated) * 25, damage, player.mainScript));
 			canFire = false;
 			shootDelay.start();
 		}

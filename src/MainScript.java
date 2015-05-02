@@ -40,6 +40,7 @@ public class MainScript {
 					long loopStartTime = System.nanoTime() / 1000000;	//saves starting time of the logic
 
 					//region<game logic>
+					System.out.println(bullets.size());
 					inputManager.poll();	//get input
 
 					if( inputManager.keyDown(KeyEvent.VK_W) ) player.moveY -= 3;

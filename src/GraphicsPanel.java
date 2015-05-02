@@ -4,6 +4,7 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GraphicsPanel extends JPanel {
 	MainScript mainScript;
@@ -18,6 +19,13 @@ public class GraphicsPanel extends JPanel {
 		super.paintComponent(g);
 
 		mainScript.player.draw(g);
-		for( Bullet bullet : mainScript.bullets ) bullet.draw(g);
+
+		ArrayList<Bullet> removeBullets = new ArrayList<Bullet>();
+
+		for( Bullet bullet : mainScript.bullets ) {
+			if( bullet.onScreen() )	bullet.draw(g);
+			else removeBullets.add(bullet);
+		}
+		for( Bullet bullet : removeBullets ) mainScript.bullets.remove(bullet);
 	}
 }
