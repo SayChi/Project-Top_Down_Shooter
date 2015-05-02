@@ -13,16 +13,21 @@ import java.io.IOException;
 
 public class Player {
 	MainScript mainScript;
-
+3
 	int x, y;
 	int moveX, moveY;
 	int health = 50;
 	int speedLimit = 5;
 	double rotation;
+	Gun[]guns = new Gun[10];
 
 	Player( MainScript mainScriptSet ) {
 		x = y = 100;
 		mainScript = mainScriptSet;
+		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0, false, false);	//pistol
+		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 5, true, false);	//micro smg
+		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0, false, false);	//rpg
+
 	}
 
 	void move() {
@@ -82,3 +87,31 @@ public class Player {
 		}
 	}
 }
+
+
+class Gun{
+	int damage;
+	int totAmmo;
+	int magSize;
+	int firerate;
+	int firemode;
+	int weaponType;
+	int reloadTime;
+	int overheatTime;
+	boolean overheatable;
+	boolean isOverheated;
+
+	Gun(int totAmmoSet, int magSizeSet, int firerateSet, int firemodeSet, int damageSet, int weaponTypeSet, int
+			reloadTimeSet, int overheatTimeSet, boolean overheatableSet, boolean isOverheatedSet){
+		damage = damageSet;
+		totAmmo = totAmmoSet;
+		magSize = magSizeSet;
+		firerate = firerateSet;
+		firemode = firemodeSet;
+		weaponType = weaponTypeSet;
+		reloadTime = reloadTimeSet;
+		overheatTime = overheatTimeSet;
+		overheatable = overheatableSet;
+		isOverheated = isOverheatedSet;
+		}
+	}
