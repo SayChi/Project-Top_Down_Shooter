@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ import java.io.IOException;
 public class Player {
 	MainScript mainScript;
 
+	int currentWeapon = 0;
 	int x, y;
 	int moveX, moveY;
 	int health = 50;
@@ -34,6 +36,9 @@ public class Player {
 	}
 
 	void move() {
+		if (mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1)){
+			guns[currentWeapon].fire();
+		}
 		if( Math.abs(moveX) > speedLimit ) moveX = (int) Math.signum(moveX) * speedLimit;
 		if( Math.abs(moveY) > speedLimit ) moveY = (int) Math.signum(moveY) * speedLimit;
 
@@ -94,6 +99,8 @@ public class Player {
 
 class Gun implements ActionListener {
 	Timer reloadTimer;
+	Timer shootDelay;
+
 	int damage;
 	int totAmmo;
 	int magSize;
@@ -105,6 +112,8 @@ class Gun implements ActionListener {
 	int overheatTime;
 	boolean overheatable;
 	boolean isOverheated;
+
+	boolean canFire;
 
 	Gun( int totAmmoSet, int magSizeSet, int firerateSet, int firemodeSet, int damageSet, int weaponTypeSet, int
 			reloadTimeSet, int overheatTimeSet, boolean overheatableSet ) {
@@ -118,24 +127,38 @@ class Gun implements ActionListener {
 		overheatTime = overheatTimeSet;
 		overheatable = overheatableSet;
 
+		shootDelay = new Timer((60 / firerate) * 1000, this);
 		reloadTimer = new Timer(reloadTime, this);
 		reloadTimer.setRepeats(false);
 	}
 
 	@Override
 	public void actionPerformed( ActionEvent e ) {
-		int temp;
-		temp = magSize - currentAmmo;
-		if (totAmmo >= temp){
-			totAmmo -= temp;
-			currentAmmo = magSize;
-		}else{
-			magSize = totAmmo;
-			totAmmo = 0;
+		if(e.getSource() == reloadTimer){
+			int temp;
+			temp = magSize - currentAmmo;
+			if (totAmmo >= temp){
+				totAmmo -= temp;
+				currentAmmo = magSize;
+			}else{
+				magSize = totAmmo;
+				totAmmo = 0;
+			}
+		}
+		else if(e.getSource() == shootDelay){
+			canFire = true;
 		}
 	}
 
 	void reload(){
 		reloadTimer.start();
+	}
+
+	void fire(){
+		if(canFire){
+			System.out.println("schiet!");
+			canFire = false;
+			shootDelay.start();
+		}
 	}
 }
