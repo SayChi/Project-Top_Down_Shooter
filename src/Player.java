@@ -3,8 +3,11 @@
 
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -89,7 +92,8 @@ public class Player {
 }
 
 
-class Gun{
+class Gun implements ActionListener {
+	Timer reloadTimer;
 	int damage;
 	int totAmmo;
 	int magSize;
@@ -97,12 +101,13 @@ class Gun{
 	int firemode;
 	int weaponType;
 	int reloadTime;
+	int currentAmmo;
 	int overheatTime;
 	boolean overheatable;
 	boolean isOverheated;
 
 	Gun(int totAmmoSet, int magSizeSet, int firerateSet, int firemodeSet, int damageSet, int weaponTypeSet, int
-			reloadTimeSet, int overheatTimeSet, boolean overheatableSet, boolean isOverheatedSet){
+			reloadTimeSet, int currentAmmoSet, int overheatTimeSet, boolean overheatableSet, boolean isOverheatedSet){
 		damage = damageSet;
 		totAmmo = totAmmoSet;
 		magSize = magSizeSet;
@@ -110,8 +115,29 @@ class Gun{
 		firemode = firemodeSet;
 		weaponType = weaponTypeSet;
 		reloadTime = reloadTimeSet;
+		currentAmmo = currentAmmoSet;
 		overheatTime = overheatTimeSet;
 		overheatable = overheatableSet;
 		isOverheated = isOverheatedSet;
+		reloadTimer = new Timer(reloadTime, this);
+		reloadTimer.setRepeats(false);
+
+		}
+
+	@Override
+	public void actionPerformed( ActionEvent e ) {
+		int temp;
+		temp = magSize - currentAmmo;
+		if (totAmmo >= temp){
+			totAmmo -= temp;
+			currentAmmo = magSize;
+		}else{
+			magSize = totAmmo;
+			totAmmo = 0;
 		}
 	}
+
+	void reloading(){
+		reloadTimer.start();
+	}
+}
