@@ -17,11 +17,6 @@ public class GraphicsPanel extends JPanel {
 	@Override
 	protected void paintComponent( Graphics g ) {
 		super.paintComponent(g);
-		//temp
-		if( mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) g.setColor(Color.RED);
-		else g.setColor(Color.BLACK);
-		g.drawLine(mainScript.player.x, mainScript.player.y, mainScript.inputManager.mouseLoc.x, mainScript
-				.inputManager.mouseLoc.y);
 
 		mainScript.player.draw(g);
 		for( Bullet bullet : mainScript.bullets ) bullet.draw(g);

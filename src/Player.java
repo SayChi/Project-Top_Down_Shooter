@@ -5,7 +5,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -29,16 +28,13 @@ public class Player {
 	Player( MainScript mainScriptSet ) {
 		x = y = 100;
 		mainScript = mainScriptSet;
-		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0, false);    //pistol
-		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 5, true);    //micro smg
-		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0, false);    //rpg
+		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0, false, this);    //pistol
+		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 5, true, this);    //micro smg
+		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0, false, this);    //rpg
 
 	}
 
 	void move() {
-		if (mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1)){
-			guns[currentWeapon].fire();
-		}
 		if( Math.abs(moveX) > speedLimit ) moveX = (int) Math.signum(moveX) * speedLimit;
 		if( Math.abs(moveY) > speedLimit ) moveY = (int) Math.signum(moveY) * speedLimit;
 
@@ -47,9 +43,8 @@ public class Player {
 
 		rotation = calcRotation();
 
-		if( mainScript.inputManager.mouseButtonDownOnce(MouseEvent.BUTTON1) ) {
-			mainScript.bullets.add(new Bullet(x, y, Math.cos(rotation - Math.PI / 2) * 10, Math.sin(rotation - Math.PI
-					/ 2) * 10, 10));
+		if( mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) {
+			guns[currentWeapon].fire();
 		}
 	}
 
@@ -104,6 +99,8 @@ public class Player {
 
 
 class Gun implements ActionListener {
+	Player player;
+
 	Timer reloadTimer;
 	Timer shootDelay;
 
@@ -119,10 +116,12 @@ class Gun implements ActionListener {
 	boolean overheatable;
 	boolean isOverheated;
 
-	boolean canFire;
+	boolean canFire = true;
 
 	Gun( int totAmmoSet, int magSizeSet, int firerateSet, int firemodeSet, int damageSet, int weaponTypeSet, int
-			reloadTimeSet, int overheatTimeSet, boolean overheatableSet ) {
+			reloadTimeSet, int overheatTimeSet, boolean overheatableSet, Player playerSet ) {
+		player = playerSet;
+
 		damage = damageSet;
 		totAmmo = totAmmoSet;
 		magSize = magSizeSet;
@@ -140,18 +139,17 @@ class Gun implements ActionListener {
 
 	@Override
 	public void actionPerformed( ActionEvent e ) {
-		if(e.getSource() == reloadTimer){
+		if( e.getSource() == reloadTimer ) {
 			int temp;
 			temp = magSize - currentAmmo;
-			if (totAmmo >= temp){
+			if( totAmmo >= temp ) {
 				totAmmo -= temp;
 				currentAmmo = magSize;
-			}else{
+			}else {
 				magSize = totAmmo;
 				totAmmo = 0;
 			}
-		}
-		else if(e.getSource() == shootDelay){
+		}else if( e.getSource() == shootDelay ) {
 			canFire = true;
 		}
 	}
@@ -160,9 +158,10 @@ class Gun implements ActionListener {
 		reloadTimer.start();
 	}
 
-	void fire(){
-		if(canFire){
-			System.out.println("schiet!");
+	void fire() {
+		if( canFire ) {
+			player.mainScript.bullets.add(new Bullet(player.x + 20, player.y + 20, Math.cos(player.rotation - Math.PI
+					/ 2) * 25, Math.sin(player.rotation - Math.PI / 2) * 25, damage));
 			canFire = false;
 			shootDelay.start();
 		}
