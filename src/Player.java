@@ -22,14 +22,14 @@ public class Player {
 	int health = 50;
 	int speedLimit = 15;
 	double rotation;
-	Gun[]guns = new Gun[10];
+	Gun[] guns = new Gun[10];
 
 	Player( MainScript mainScriptSet ) {
 		x = y = 100;
 		mainScript = mainScriptSet;
-		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0, false, false);	//pistol
-		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 5, true, false);	//micro smg
-		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0, false, false);	//rpg
+		guns[0] = new Gun(999, 17, 40, 1, 6, 0, 2, 0, false);    //pistol
+		guns[1] = new Gun(300, 30, 300, 3, 3, 1, 3, 5, true);    //micro smg
+		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0, false);    //rpg
 
 	}
 
@@ -106,8 +106,8 @@ class Gun implements ActionListener {
 	boolean overheatable;
 	boolean isOverheated;
 
-	Gun(int totAmmoSet, int magSizeSet, int firerateSet, int firemodeSet, int damageSet, int weaponTypeSet, int
-			reloadTimeSet, int currentAmmoSet, int overheatTimeSet, boolean overheatableSet, boolean isOverheatedSet){
+	Gun( int totAmmoSet, int magSizeSet, int firerateSet, int firemodeSet, int damageSet, int weaponTypeSet, int
+			reloadTimeSet, int overheatTimeSet, boolean overheatableSet ) {
 		damage = damageSet;
 		totAmmo = totAmmoSet;
 		magSize = magSizeSet;
@@ -115,14 +115,12 @@ class Gun implements ActionListener {
 		firemode = firemodeSet;
 		weaponType = weaponTypeSet;
 		reloadTime = reloadTimeSet;
-		currentAmmo = currentAmmoSet;
 		overheatTime = overheatTimeSet;
 		overheatable = overheatableSet;
-		isOverheated = isOverheatedSet;
+
 		reloadTimer = new Timer(reloadTime, this);
 		reloadTimer.setRepeats(false);
-
-		}
+	}
 
 	@Override
 	public void actionPerformed( ActionEvent e ) {
@@ -137,7 +135,7 @@ class Gun implements ActionListener {
 		}
 	}
 
-	void reloading(){
+	void reload(){
 		reloadTimer.start();
 	}
 }
