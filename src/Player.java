@@ -137,6 +137,7 @@ class Gun implements ActionListener {
 		overheatable = overheatableSet;
 
 		shootDelay = new Timer((int)((60.0 / firerate) * 1000), this);
+		shootDelay.setRepeats(false);
 		reloadTimer = new Timer(reloadTime, this);
 		reloadTimer.setRepeats(false);
 	}
@@ -167,10 +168,10 @@ class Gun implements ActionListener {
 
 	void fire() {
 		if( canFire ) {
-			double angleDeviated = player.rotation + ((r.nextDouble() - 0.5) * 2 * Math.PI * deviation) - Math.PI / 2;
-			player.mainScript.bullets.add(new Bullet(player.x + 20, player.y + 20, Math.cos(angleDeviated) * 25, Math
-					.sin(angleDeviated) * 25, damage, player.mainScript));
 			canFire = false;
+			double angleDeviated = player.rotation + ((r.nextDouble() - 0.5) * 2 * Math.PI * deviation) - Math.PI / 2;
+			player.mainScript.bullets.add(new Bullet(player.x + 40, player.y + 40, Math.cos(angleDeviated) * 25, Math
+					.sin(angleDeviated) * 25, damage, player.mainScript));
 			shootDelay.start();
 		}
 	}
