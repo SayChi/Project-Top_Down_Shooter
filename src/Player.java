@@ -156,9 +156,6 @@ class Gun implements ActionListener {
 			}
 		}else if( e.getSource() == shootDelay ) {
 			canFire = true;
-			if( player.mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) {
-				fire();
-			}
 		}
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab1e64ff-911c-4926-9274-2fc82751d209" name="Default" comment="">
+    <list default="true" id="ab1e64ff-911c-4926-9274-2fc82751d209" name="Default" comment="crash after firing fixed">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Player.java" afterPath="$PROJECT_DIR$/src/Player.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -68,7 +68,7 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.34715822" vertical-offset="2426" max-vertical-offset="3077">
+            <state vertical-scroll-proportion="0.42549923" vertical-offset="2375" max-vertical-offset="3026">
               <caret line="157" column="27" selection-start-line="157" selection-start-column="27" selection-end-line="157" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -604,7 +604,13 @@
       <option name="project" value="LOCAL" />
       <updated>1430604108171</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="crash after firing fixed">
+      <created>1430831952032</created>
+      <option name="number" value="00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1430831952032</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -671,7 +677,8 @@
     <MESSAGE value="bullets 'independent'&#10;of logic cycle" />
     <MESSAGE value="bullets leaving screen crash fixed" />
     <MESSAGE value="reeeeaaaal basic enemy" />
-    <option name="LAST_COMMIT_MESSAGE" value="reeeeaaaal basic enemy" />
+    <MESSAGE value="crash after firing fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="crash after firing fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1189,7 +1196,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34715822" vertical-offset="2426" max-vertical-offset="3077">
+        <state vertical-scroll-proportion="0.42549923" vertical-offset="2375" max-vertical-offset="3026">
           <caret line="157" column="27" selection-start-line="157" selection-start-column="27" selection-end-line="157" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
