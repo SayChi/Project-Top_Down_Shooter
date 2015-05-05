@@ -37,8 +37,6 @@ public class Enemy {
 		}
 
 		for( Bullet bullet : removeBullets ) mainScript.bullets.remove(bullet);
-
-		if( health <= 0 ) mainScript.enemies.remove(this);
 	}
 
 	void draw( java.awt.Graphics g ) {

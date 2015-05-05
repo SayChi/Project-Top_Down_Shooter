@@ -15,7 +15,7 @@ public class MainScript {
 	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
-	int logicTimeDelayMilliSecs = 1000 / 25;	//delay between logic loops
+	int logicTimeDelayMilliSecs = 1000 / 25;    //delay between logic loops
 
 	long lastDrawTime;
 	int fps;
@@ -41,10 +41,10 @@ public class MainScript {
 			@Override
 			protected Void doInBackground() throws Exception {
 				while( true ) {
-					long loopStartTime = System.nanoTime() / 1000000;	//saves starting time of the logic
+					long loopStartTime = System.nanoTime() / 1000000;    //saves starting time of the logic
 
 					//region<game logic>
-					inputManager.poll();	//get input
+					inputManager.poll();    //get input
 
 					if( inputManager.keyDown(KeyEvent.VK_W) ) player.moveY -= 3;
 					if( inputManager.keyDown(KeyEvent.VK_S) ) player.moveY += 3;
@@ -58,17 +58,24 @@ public class MainScript {
 					else if( player.moveY < 0 ) player.moveY++;
 
 					for( Bullet bullet : bullets ) bullet.move();
-					player.move();			//move player
+					player.move();            //move player
 
-					for( Enemy enemy : enemies ) enemy.move();
+					ArrayList<Enemy> removeEnemies = new ArrayList<Enemy>();
+
+					for( Enemy enemy : enemies ) {
+						enemy.move();
+						if( enemy.health <= 0 ) removeEnemies.add(enemy);
+					}
+
+					for( Enemy enemy : removeEnemies ) enemies.remove(enemy);
 					//endregion
 
 					publish();
 
 					//stops if there is not enough time for logic (too slow PC) else sleeps
 					//if( System.nanoTime() / 1000000 - loopStartTime > logicTimeDelayMilliSecs ) return null;
-					cps = (int) (1000/(System.nanoTime()/1000000 - lastCalcTime));
-					lastCalcTime = System.nanoTime()/1000000;
+					cps = (int) (1000 / (System.nanoTime() / 1000000 - lastCalcTime));
+					lastCalcTime = System.nanoTime() / 1000000;
 					frame.setTitle("FPS: " + fps + "   CPS: " + cps);
 					try {
 						Thread.sleep(logicTimeDelayMilliSecs - (System.nanoTime() / 1000000 - loopStartTime));
@@ -80,8 +87,8 @@ public class MainScript {
 			@Override
 			protected void process( List<Void> v ) {
 				graphicsPanel.repaint();
-				fps = (int) (1000/(System.nanoTime()/1000000 - lastDrawTime));
-				lastDrawTime = System.nanoTime()/1000000;
+				fps = (int) (1000 / (System.nanoTime() / 1000000 - lastDrawTime));
+				lastDrawTime = System.nanoTime() / 1000000;
 			}
 		}.execute();
 	}
