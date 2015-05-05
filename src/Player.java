@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -32,13 +33,14 @@ public class Player {
 	Player( MainScript mainScriptSet ) {
 		x = y = 100;
 		mainScript = mainScriptSet;
-		guns[0] = new Gun(999, 17, 80, 1, 6, 0, 2, 0.01, 0, false, this);        //pistol
-		guns[1] = new Gun(300, 25, 300, 3, 3, 1, 3, 0.02, 5, true, this);        //micro smg
-		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0.03, 0, false, this);        //rpg
-		guns[3] = new Gun(3000, 1000, 1500, 3, 6, 3, 30, 0.04, 20, true, this);    //mini gun
+		guns[0] = new Gun(999, 17, 80, 1, 6, 0, 2000, 0.01, 0, false, this);        //pistol
+		guns[1] = new Gun(300, 25, 300, 3, 3, 1, 3000, 0.02, 5, true, this);        //micro smg
+		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10000, 0.03, 0, false, this);        //rpg
+		guns[3] = new Gun(3000, 1000, 1500, 3, 6, 3, 30000, 0.04, 20, true, this);    //mini gun
 	}
 
 	void move() {
+		//speed limit
 		if( Math.sqrt(Math.pow(moveX, 2) + Math.pow(moveY, 2)) > speedLimit ) {
 			double partX = (double) moveX / (Math.sqrt(Math.pow(moveX, 2) + Math.pow(moveY, 2)));
 			double partY = (double) moveY / (Math.sqrt(Math.pow(moveX, 2) + Math.pow(moveY, 2)));
@@ -46,9 +48,11 @@ public class Player {
 			moveY = (int) (partY * speedLimit);
 		}
 
+		//move
 		x += moveX;
 		y += moveY;
 
+		//screen edges
 		if( x >= mainScript.graphicsPanel.getWidth() - 0 ) {
 			x = mainScript.graphicsPanel.getWidth() - 1;
 		}
@@ -64,24 +68,28 @@ public class Player {
 
 		rotation = calcRotation();
 
+		//weapon select
+		//TODO: numbers select weapons
 		currentWeapon += mainScript.inputManager.scolled();
 		if( currentWeapon < 0 ) currentWeapon += totalWeapons;
 		else if( currentWeapon > totalWeapons - 1 ) currentWeapon -= totalWeapons;
 
-		if( mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) {
-			guns[currentWeapon].fire();
-		}
+		//input
+		if( mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) guns[currentWeapon].fire();
+		if( mainScript.inputManager.keyDownOnce(KeyEvent.VK_R) ) guns[currentWeapon].reload();
 
+		//hit detection
 		ArrayList<Bullet> removeBullets = new ArrayList<Bullet>();
-
 		for( Bullet bullet : mainScript.bullets ) {
 			if( Math.sqrt(Math.pow(x - bullet.x, 2) + Math.pow(y - bullet.y, 2)) < hitBoxRad ) {
 				removeBullets.add(bullet);
 				health -= bullet.damage;
 			}
 		}
-
 		for( Bullet bullet : removeBullets ) mainScript.bullets.remove(bullet);
+
+		System.out.println("weapon: " + currentWeapon + " totAmmo: " + guns[currentWeapon].totAmmo + " magSize: " +
+				guns[currentWeapon].magSize + " currentAmmo: " + guns[currentWeapon].currentAmmo);
 	}
 
 	void draw( Graphics g ) {
@@ -143,8 +151,8 @@ class Gun implements ActionListener {
 	int damage;
 	int totAmmo;
 	int magSize;
-	int firerate;
-	int firemode;
+	int fireRate;
+	int fireMode;
 	int weaponType;
 	int reloadTime;
 	int currentAmmo;
@@ -163,15 +171,15 @@ class Gun implements ActionListener {
 		damage = damageSet;
 		totAmmo = totAmmoSet;
 		magSize = magSizeSet;
-		firerate = fireRateSet;
-		firemode = fireModeSet;
+		fireRate = fireRateSet;
+		fireMode = fireModeSet;
 		weaponType = weaponTypeSet;
 		reloadTime = reloadTimeSet;
 		deviation = deviationSet;
 		overheatTime = overheatTimeSet;
 		overheatable = overheatableSet;
 
-		shootDelay = new Timer((int) ((60.0 / firerate) * 1000), this);
+		shootDelay = new Timer((int) ((60.0 / fireRate) * 1000), this);
 		shootDelay.setRepeats(false);
 		reloadTimer = new Timer(reloadTime, this);
 		reloadTimer.setRepeats(false);
@@ -182,35 +190,27 @@ class Gun implements ActionListener {
 		if( e.getSource() == reloadTimer ) {
 			totAmmo -= magSize - currentAmmo;
 			currentAmmo = Math.min(totAmmo, magSize);
-
-			//int temp;
-			//temp = magSize - currentAmmo;
-			//if( totAmmo >= temp ) {
-			//	totAmmo -= temp;
-			//	currentAmmo = magSize;
-			//}else {
-			//	magSize = totAmmo;
-			//	totAmmo = 0;
-			//}
 		}else if( e.getSource() == shootDelay ) {
 			canFire = true;
 		}
 	}
 
 	void reload() {
-		if( totAmmo > currentAmmo ) reloadTimer.start();
-		lastReloadTime = System.nanoTime()/1000000;
+		if( totAmmo > currentAmmo && currentAmmo != magSize ) reloadTimer.start();
+		lastReloadTime = System.nanoTime() / 1000000;
 	}
 
 	void fire() {
-		if( canFire ) {
+		if( canFire && currentAmmo > 0 ) {
 			canFire = false;
 			double angleDeviated = player.rotation + ((r.nextDouble() - 0.5) * 2 * Math.PI * deviation) - Math.PI / 2;
 			player.mainScript.bullets.add(new Bullet(player.x + (int) (Math.cos(player.rotation - Math.PI / 2) *
 					(player.hitBoxRad + 2)), player.y + (int) (Math.sin(player.rotation - Math.PI / 2) * (player
 					.hitBoxRad + 2)), Math.cos(angleDeviated) * 25, Math.sin(angleDeviated) * 25, damage, player
 					.mainScript));
+			currentAmmo--;
 			shootDelay.start();
+			if( currentAmmo == 0 ) reload();
 		}
 	}
 }

@@ -74,8 +74,8 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39938557" vertical-offset="2647" max-vertical-offset="3553">
-              <caret line="184" column="12" selection-start-line="184" selection-start-column="12" selection-end-line="184" selection-end-column="12" />
+            <state vertical-scroll-proportion="-2.3686635" vertical-offset="2885" max-vertical-offset="3536">
+              <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -644,7 +644,13 @@
       <option name="project" value="LOCAL" />
       <updated>1430848693306</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="reload overhaul">
+      <created>1430851282495</created>
+      <option name="number" value="00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1430851282495</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -692,7 +698,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="SwingWorker" />
     <MESSAGE value="Timer logic v1" />
     <MESSAGE value="Timer logic v2 (should be correct now)" />
     <MESSAGE value="Some more structure, Mouse location&amp;clicking, random line in graphics for testing" />
@@ -717,7 +722,8 @@
     <MESSAGE value="player damageable" />
     <MESSAGE value="shooting outside hitbox" />
     <MESSAGE value="walking diagonal speed limit" />
-    <option name="LAST_COMMIT_MESSAGE" value="walking diagonal speed limit" />
+    <MESSAGE value="reload overhaul" />
+    <option name="LAST_COMMIT_MESSAGE" value="reload overhaul" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1205,8 +1211,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39938557" vertical-offset="2647" max-vertical-offset="3553">
-          <caret line="184" column="12" selection-start-line="184" selection-start-column="12" selection-end-line="184" selection-end-column="12" />
+        <state vertical-scroll-proportion="-2.3686635" vertical-offset="2885" max-vertical-offset="3536">
+          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
           <folding />
         </state>
       </provider>
