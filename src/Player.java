@@ -13,6 +13,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
@@ -25,6 +26,7 @@ public class Player {
 	int health = 50;
 	int speedLimit = 15;
 	double rotation;
+	int hitBoxRad = 20;
 	Gun[] guns = new Gun[totalWeapons];
 
 	Player( MainScript mainScriptSet ) {
@@ -52,6 +54,17 @@ public class Player {
 		if( mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) {
 			guns[currentWeapon].fire();
 		}
+
+		ArrayList<Bullet> removeBullets = new ArrayList<Bullet>();
+
+		for( Bullet bullet : mainScript.bullets ) {
+			if( Math.sqrt(Math.pow(x - bullet.x, 2) + Math.pow(y - bullet.y, 2)) < hitBoxRad ) {
+				removeBullets.add(bullet);
+				health -= bullet.damage;
+			}
+		}
+
+		for( Bullet bullet : removeBullets ) mainScript.bullets.remove(bullet);
 	}
 
 	void draw( Graphics g ) {
@@ -64,12 +77,11 @@ public class Player {
 
 		try {
 			imagePlayer = ImageIO.read(new File("images//player1.png"));
-			g.translate(-20, -20);
 			AffineTransform tx = new AffineTransform();
 			tx.rotate(rotation, imagePlayer.getWidth() / 2, imagePlayer.getHeight() / 2);
 			AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 			imagePlayer = op.filter(imagePlayer, null);
-			g.drawImage(imagePlayer, x, y, null);
+			g.drawImage(imagePlayer, x - 20, y - 20, null);
 		}catch( IOException e ) {
 		}
 	}
@@ -141,7 +153,7 @@ class Gun implements ActionListener {
 		overheatTime = overheatTimeSet;
 		overheatable = overheatableSet;
 
-		shootDelay = new Timer((int)((60.0 / firerate) * 1000), this);
+		shootDelay = new Timer((int) ((60.0 / firerate) * 1000), this);
 		shootDelay.setRepeats(false);
 		reloadTimer = new Timer(reloadTime, this);
 		reloadTimer.setRepeats(false);
@@ -172,8 +184,10 @@ class Gun implements ActionListener {
 		if( canFire ) {
 			canFire = false;
 			double angleDeviated = player.rotation + ((r.nextDouble() - 0.5) * 2 * Math.PI * deviation) - Math.PI / 2;
-			player.mainScript.bullets.add(new Bullet(player.x + 40, player.y + 40, Math.cos(angleDeviated) * 25, Math
-					.sin(angleDeviated) * 25, damage, player.mainScript));
+			player.mainScript.bullets.add(new Bullet(player.x + (int) (Math.cos(player.rotation - Math.PI / 2) *
+					(player.hitBoxRad + 2)), player.y + (int) (Math.sin(player.rotation - Math.PI / 2) * (player
+					.hitBoxRad + 2)), Math.cos(angleDeviated) * 25, Math.sin(angleDeviated) * 25, damage, player
+					.mainScript));
 			shootDelay.start();
 		}
 	}

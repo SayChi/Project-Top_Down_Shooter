@@ -36,6 +36,10 @@ public class MainScript {
 		//endregion
 
 		enemies.add(new BasicEnemy(this, 50, 50));
+		enemies.add(new BasicEnemy(this, 100, 100));
+		enemies.add(new BasicEnemy(this, 150, 150));
+		enemies.add(new BasicEnemy(this, 200, 200));
+		enemies.add(new BasicEnemy(this, 250, 250));
 
 		new SwingWorker<Void, Void>() {
 			@Override

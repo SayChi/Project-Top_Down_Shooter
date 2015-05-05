@@ -57,12 +57,11 @@ public class Enemy {
 
 		try {
 			imagePlayer = ImageIO.read(new File("images//player1.png"));
-			g.translate(-20, -20);
 			AffineTransform tx = new AffineTransform();
 			tx.rotate(rotation, imagePlayer.getWidth() / 2, imagePlayer.getHeight() / 2);
 			AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 			imagePlayer = op.filter(imagePlayer, null);
-			g.drawImage(imagePlayer, x, y, null);
+			g.drawImage(imagePlayer, x-20, y-20, null);
 		}catch( IOException e ) {
 		}
 	}
