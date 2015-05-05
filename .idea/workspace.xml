@@ -74,9 +74,8 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7127496" vertical-offset="12" max-vertical-offset="3468">
-              <caret line="42" column="10" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
-              <caret line="41" column="10" selection-start-line="41" selection-start-column="10" selection-end-line="41" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.39938557" vertical-offset="2647" max-vertical-offset="3553">
+              <caret line="184" column="12" selection-start-line="184" selection-start-column="12" selection-end-line="184" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -639,7 +638,13 @@
       <option name="project" value="LOCAL" />
       <updated>1430847646967</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="walking diagonal speed limit">
+      <created>1430848693306</created>
+      <option name="number" value="00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1430848693306</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -687,7 +692,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="created main" />
     <MESSAGE value="SwingWorker" />
     <MESSAGE value="Timer logic v1" />
     <MESSAGE value="Timer logic v2 (should be correct now)" />
@@ -712,7 +716,8 @@
     <MESSAGE value="killing v2" />
     <MESSAGE value="player damageable" />
     <MESSAGE value="shooting outside hitbox" />
-    <option name="LAST_COMMIT_MESSAGE" value="shooting outside hitbox" />
+    <MESSAGE value="walking diagonal speed limit" />
+    <option name="LAST_COMMIT_MESSAGE" value="walking diagonal speed limit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1200,9 +1205,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7127496" vertical-offset="12" max-vertical-offset="3468">
-          <caret line="42" column="10" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
-          <caret line="41" column="10" selection-start-line="41" selection-start-column="10" selection-end-line="41" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.39938557" vertical-offset="2647" max-vertical-offset="3553">
+          <caret line="184" column="12" selection-start-line="184" selection-start-column="12" selection-end-line="184" selection-end-column="12" />
           <folding />
         </state>
       </provider>

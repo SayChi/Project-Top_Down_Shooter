@@ -39,8 +39,6 @@ public class Player {
 	}
 
 	void move() {
-		//if( Math.abs(moveX) > speedLimit ) moveX = (int) Math.signum(moveX) * speedLimit;
-		//if( Math.abs(moveY) > speedLimit ) moveY = (int) Math.signum(moveY) * speedLimit;
 		if( Math.sqrt(Math.pow(moveX, 2) + Math.pow(moveY, 2)) > speedLimit ) {
 			double partX = (double) moveX / (Math.sqrt(Math.pow(moveX, 2) + Math.pow(moveY, 2)));
 			double partY = (double) moveY / (Math.sqrt(Math.pow(moveX, 2) + Math.pow(moveY, 2)));
@@ -156,6 +154,7 @@ class Gun implements ActionListener {
 	boolean isOverheated;
 
 	boolean canFire = true;
+	long lastReloadTime;
 
 	Gun( int totAmmoSet, int magSizeSet, int fireRateSet, int fireModeSet, int damageSet, int weaponTypeSet, int
 			reloadTimeSet, double deviationSet, int overheatTimeSet, boolean overheatableSet, Player playerSet ) {
@@ -181,22 +180,26 @@ class Gun implements ActionListener {
 	@Override
 	public void actionPerformed( ActionEvent e ) {
 		if( e.getSource() == reloadTimer ) {
-			int temp;
-			temp = magSize - currentAmmo;
-			if( totAmmo >= temp ) {
-				totAmmo -= temp;
-				currentAmmo = magSize;
-			}else {
-				magSize = totAmmo;
-				totAmmo = 0;
-			}
+			totAmmo -= magSize - currentAmmo;
+			currentAmmo = Math.min(totAmmo, magSize);
+
+			//int temp;
+			//temp = magSize - currentAmmo;
+			//if( totAmmo >= temp ) {
+			//	totAmmo -= temp;
+			//	currentAmmo = magSize;
+			//}else {
+			//	magSize = totAmmo;
+			//	totAmmo = 0;
+			//}
 		}else if( e.getSource() == shootDelay ) {
 			canFire = true;
 		}
 	}
 
 	void reload() {
-		reloadTimer.start();
+		if( totAmmo > currentAmmo ) reloadTimer.start();
+		lastReloadTime = System.nanoTime()/1000000;
 	}
 
 	void fire() {
