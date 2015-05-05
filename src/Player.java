@@ -100,6 +100,13 @@ public class Player {
 		g.fillRect(x - 25, y - 40, health / 2, 10);
 		g.drawString(String.valueOf(health), x - 8, y - 43);
 
+		if(guns[currentWeapon].reloadTimer.isRunning()){
+			long tempTimeDif = guns[currentWeapon].lastReloadTime - (System.nanoTime() / 1000000);
+			double percentageTime = (double) tempTimeDif / guns[currentWeapon].reloadTime;
+			g.setColor(Color.GREEN);
+			g.fillRect((int)(x - (percentageTime * 25)), y - 35, (int)((percentageTime * 50)), 5);
+		}
+
 		try {
 			imagePlayer = ImageIO.read(new File("images//player1.png"));
 			AffineTransform tx = new AffineTransform();
