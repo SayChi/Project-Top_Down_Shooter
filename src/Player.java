@@ -104,7 +104,7 @@ public class Player {
 			long tempTimeDif = guns[currentWeapon].lastReloadTime - (System.nanoTime() / 1000000);
 			double percentageTime = (double) tempTimeDif / guns[currentWeapon].reloadTime;
 			g.setColor(Color.GREEN);
-			g.fillRect((int)(x - (percentageTime * 25)), y - 30, (int)((percentageTime * 50)), 5);
+			g.fillRect((int)(x - (percentageTime * 25)), y - 35, (int)((percentageTime * 50)), 5);
 		}
 
 		try {
