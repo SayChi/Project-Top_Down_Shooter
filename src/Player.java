@@ -45,6 +45,21 @@ public class Player {
 		x += moveX;
 		y += moveY;
 
+
+		if(x >= mainScript.graphicsPanel.getWidth() - 0){
+			x = mainScript.graphicsPanel.getWidth() - 1;
+		}
+		if(y >= mainScript.graphicsPanel.getHeight() - 0){
+			y = mainScript.graphicsPanel.getWidth() - 1;
+		}
+		if(x <= 0){
+			x = 1;
+		}
+		if(y <= 0){
+			y = 1;
+		}
+
+
 		rotation = calcRotation();
 
 		currentWeapon += mainScript.inputManager.scolled();
