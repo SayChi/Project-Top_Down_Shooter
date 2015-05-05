@@ -9,22 +9,37 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Enemy {
 	MainScript mainScript;
 
 	int x, y;
-	int health;
+	int health = 100;
+	int hitBoxRad = 25;
 	double rotation;
 
-	Enemy(MainScript mainScriptSet, int xSet, int ySet) {
+	Enemy( MainScript mainScriptSet, int xSet, int ySet ) {
 		mainScript = mainScriptSet;
 
 		x = xSet;
 		y = ySet;
 	}
 
-	void move(){}
+	void move() {
+		ArrayList<Bullet> removeBullets = new ArrayList<Bullet>();
+
+		for( Bullet bullet : mainScript.bullets ) {
+			if( Math.sqrt(Math.pow(x - bullet.x, 2) + Math.pow(y - bullet.y, 2)) <= hitBoxRad ) {
+				removeBullets.add(bullet);
+				health -= bullet.damage;
+			}
+		}
+
+		for( Bullet bullet : removeBullets ) mainScript.bullets.remove(bullet);
+
+		if( health <= 0 ) mainScript.enemies.remove(this);
+	}
 
 	void draw( java.awt.Graphics g ) {
 		BufferedImage imagePlayer;

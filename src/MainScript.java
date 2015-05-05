@@ -32,6 +32,7 @@ public class MainScript {
 
 		frame.addKeyListener(inputManager);
 		frame.addMouseListener(inputManager);
+		frame.addMouseWheelListener(inputManager);
 		//endregion
 
 		enemies.add(new BasicEnemy(this, 50, 50));

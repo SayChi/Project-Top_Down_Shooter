@@ -10,6 +10,7 @@ public class BasicEnemy extends Enemy{
 
 	@Override
 	void move() {
+		super.move();
 		if( mainScript.player.x > x ) x++;
 		else if( mainScript.player.x < x ) x--;
 

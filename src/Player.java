@@ -19,12 +19,13 @@ public class Player {
 	MainScript mainScript;
 
 	int currentWeapon = 3;
+	int totalWeapons = 4;
 	int x, y;
 	int moveX, moveY;
 	int health = 50;
 	int speedLimit = 15;
 	double rotation;
-	Gun[] guns = new Gun[10];
+	Gun[] guns = new Gun[totalWeapons];
 
 	Player( MainScript mainScriptSet ) {
 		x = y = 100;
@@ -43,6 +44,10 @@ public class Player {
 		y += moveY;
 
 		rotation = calcRotation();
+
+		currentWeapon += mainScript.inputManager.scolled();
+		if( currentWeapon < 0 ) currentWeapon += totalWeapons;
+		else if( currentWeapon > totalWeapons - 1 ) currentWeapon -= totalWeapons;
 
 		if( mainScript.inputManager.mouseButtonDown(MouseEvent.BUTTON1) ) {
 			guns[currentWeapon].fire();

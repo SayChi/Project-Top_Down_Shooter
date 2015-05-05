@@ -3,13 +3,10 @@
 
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Arrays;
 
-public class InputManager implements KeyListener, MouseListener {
+public class InputManager implements KeyListener, MouseListener, MouseWheelListener {
 	MainScript mainScript;
 
 	final int KEY_COUNT = 256;
@@ -22,6 +19,8 @@ public class InputManager implements KeyListener, MouseListener {
 
 	boolean[] currentKeys = new boolean[KEY_COUNT];
 	KeyState[] keys = new KeyState[KEY_COUNT];
+
+	int theySeeMeScrolling;
 
 	InputManager( MainScript mainScriptSet ) {
 		mainScript = mainScriptSet;
@@ -65,20 +64,31 @@ public class InputManager implements KeyListener, MouseListener {
 		ONCE      // Rising edge
 	}
 
-	public boolean keyDown( int keyCode ) {
+	int scolled() {
+		int temp = -theySeeMeScrolling;
+		theySeeMeScrolling = 0;
+		return temp;
+	}
+
+	boolean keyDown( int keyCode ) {
 		return keys[ keyCode ] == KeyState.ONCE || keys[ keyCode ] == KeyState.PRESSED;
 	}
 
-	public boolean keyDownOnce( int keyCode ) {
+	boolean keyDownOnce( int keyCode ) {
 		return keys[ keyCode ] == KeyState.ONCE;
 	}
 
-	public boolean mouseButtonDown( int keyCode ) {
+	boolean mouseButtonDown( int keyCode ) {
 		return mouseButtons[ keyCode - 1 ] == KeyState.ONCE || mouseButtons[ keyCode - 1 ] == KeyState.PRESSED;
 	}
 
-	public boolean mouseButtonDownOnce( int keyCode ) {
+	boolean mouseButtonDownOnce( int keyCode ) {
 		return mouseButtons[ keyCode - 1 ] == KeyState.ONCE;
+	}
+
+	@Override
+	public void mouseWheelMoved( MouseWheelEvent e ) {
+		theySeeMeScrolling = e.getWheelRotation();
 	}
 
 	@Override
