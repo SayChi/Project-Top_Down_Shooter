@@ -21,7 +21,6 @@ public class Enemy {
 	int hitBoxRad = 25;
 	double deviation = 0.06;
 	double rotation;
-	double angleDeviated;
 	Random r = new Random();
 
 	Enemy( MainScript mainScriptSet, int xSet, int ySet ) {
@@ -61,12 +60,12 @@ public class Enemy {
 			tx.rotate(rotation, imagePlayer.getWidth() / 2, imagePlayer.getHeight() / 2);
 			AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 			imagePlayer = op.filter(imagePlayer, null);
-			g.drawImage(imagePlayer, x-20, y-20, null);
+			g.drawImage(imagePlayer, x - 20, y - 20, null);
 		}catch( IOException e ) {
 		}
 	}
 
-	double calcRotation(){
+	double calcRotation() {
 		double deltaX = mainScript.player.x - x;
 		double deltaY = mainScript.player.y - y;
 		double tempAngle;
@@ -96,7 +95,8 @@ public class Enemy {
 
 	void shoot() {
 		double angleDeviated = rotation + ((r.nextDouble() - 0.5) * 2 * Math.PI * deviation) - Math.PI / 2;
-		mainScript.bullets.add(new Bullet(x + 20, y + 20, Math.cos(angleDeviated)
-				* 25, Math.sin(angleDeviated) * 25, damage, mainScript));
+		mainScript.bullets.add(new Bullet(x + (int) (Math.cos(rotation - Math.PI / 2) * (hitBoxRad + 2)), y
+				+ (int) (Math.sin(rotation - Math.PI / 2) * (hitBoxRad + 2)), Math.cos(angleDeviated) * 25, Math.sin
+				(angleDeviated) * 25, damage, mainScript));
 	}
 }

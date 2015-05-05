@@ -23,7 +23,7 @@ public class Player {
 	int totalWeapons = 4;
 	int x, y;
 	int moveX, moveY;
-	int health = 50;
+	int health = 100;
 	int speedLimit = 15;
 	double rotation;
 	int hitBoxRad = 20;
@@ -35,22 +35,24 @@ public class Player {
 		guns[0] = new Gun(999, 17, 80, 1, 6, 0, 2, 0.01, 0, false, this);    	//pistol
 		guns[1] = new Gun(300, 25, 300, 3, 3, 1, 3, 0.02, 5, true, this);    	//micro smg
 		guns[2] = new Gun(5, 1, 30, 1, 100, 2, 10, 0.03, 0, false, this);    	//rpg
-		guns[3] = new Gun(3000, 1000, 1500, 3, 6, 3, 30, 0.06, 20, true, this);	//mini gun
+		guns[3] = new Gun(3000, 1000, 1500, 3, 6, 3, 30, 0.04, 20, true, this);	//mini gun
 	}
 
 	void move() {
 		if( Math.abs(moveX) > speedLimit ) moveX = (int) Math.signum(moveX) * speedLimit;
 		if( Math.abs(moveY) > speedLimit ) moveY = (int) Math.signum(moveY) * speedLimit;
+		if( Math.sqrt(Math.pow(moveX,2)+Math.pow(moveY,2))>speedLimit ) {
+
+		}
 
 		x += moveX;
 		y += moveY;
-
 
 		if(x >= mainScript.graphicsPanel.getWidth() - 0){
 			x = mainScript.graphicsPanel.getWidth() - 1;
 		}
 		if(y >= mainScript.graphicsPanel.getHeight() - 0){
-			y = mainScript.graphicsPanel.getWidth() - 1;
+			y = mainScript.graphicsPanel.getHeight() - 1;
 		}
 		if(x <= 0){
 			x = 1;
@@ -58,7 +60,6 @@ public class Player {
 		if(y <= 0){
 			y = 1;
 		}
-
 
 		rotation = calcRotation();
 

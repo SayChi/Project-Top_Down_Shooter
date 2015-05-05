@@ -6,11 +6,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class BasicEnemy extends Enemy implements ActionListener{
-
+public class BasicEnemy extends Enemy implements ActionListener {
 	Timer shootDelay = new Timer(1000, this);
-
-
 
 	BasicEnemy( MainScript mainScriptSet, int xSet, int ySet ) {
 		super(mainScriptSet, xSet, ySet);
@@ -29,7 +26,10 @@ public class BasicEnemy extends Enemy implements ActionListener{
 
 	@Override
 	public void actionPerformed( ActionEvent e ) {
+		if( health <= 0 ) {
+			shootDelay.stop();
+			return;
+		}
 		super.shoot();
-		//shootDelay.start();
 	}
 }
