@@ -10,14 +10,19 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Enemy {
 	MainScript mainScript;
 
+	int damage = 5;
 	int x, y;
 	int health = 100;
 	int hitBoxRad = 25;
+	double deviation = 0.06;
 	double rotation;
+	double angleDeviated;
+	Random r = new Random();
 
 	Enemy( MainScript mainScriptSet, int xSet, int ySet ) {
 		mainScript = mainScriptSet;
@@ -28,6 +33,8 @@ public class Enemy {
 
 	void move() {
 		ArrayList<Bullet> removeBullets = new ArrayList<Bullet>();
+
+		rotation = calcRotation();
 
 		for( Bullet bullet : mainScript.bullets ) {
 			if( Math.sqrt(Math.pow(x - bullet.x, 2) + Math.pow(y - bullet.y, 2)) <= hitBoxRad ) {
@@ -58,5 +65,39 @@ public class Enemy {
 			g.drawImage(imagePlayer, x, y, null);
 		}catch( IOException e ) {
 		}
+	}
+
+	double calcRotation(){
+		double deltaX = mainScript.player.x - x;
+		double deltaY = mainScript.player.y - y;
+		double tempAngle;
+
+		if( deltaY == 0 ) {
+			if( deltaX > 0 ) {
+				return (Math.PI * 0.5);
+			}else {
+				return (Math.PI * -0.5);
+			}
+		}else {
+			tempAngle = Math.atan(deltaX / deltaY);
+		}
+
+		if( deltaX <= 0 && deltaY < 0 ) {
+			return (tempAngle * -1);
+		}else if( deltaX >= 0 && deltaY < 0 ) {
+			return (tempAngle * -1);
+		}else if( deltaX <= 0 && deltaY >= 0 ) {
+			return (Math.PI - tempAngle);
+		}else if( deltaX >= 0 && deltaY >= 0 ) {
+			return (Math.PI - tempAngle);
+		}else {
+			return 0;
+		}
+	}
+
+	void shoot() {
+		double angleDeviated = rotation + ((r.nextDouble() - 0.5) * 2 * Math.PI * deviation) - Math.PI / 2;
+		mainScript.bullets.add(new Bullet(x + 20, y + 20, Math.cos(angleDeviated)
+				* 25, Math.sin(angleDeviated) * 25, damage, mainScript));
 	}
 }
